@@ -1,0 +1,70 @@
+En base a las siguientes definiciones de tablas deberá crear una aplicación WEB usando Apache, PHP y MySQL.
+Deberá usar el instalador provisto en el GES: WampServer.
+Nombre de Base de Datos: CONTABILIDAD
+CREATE TABLE Cuentas
+( NumCuenta integer,
+ NombreCuenta varchar(50),
+ Tipo char(1),
+ PRIMARY KEY(NumCuenta),
+ CHECK (Tipo IN ('A','P','C','I','G'))
+);
+CREATE TABLE Polizas
+( NumPoliza integer,
+ Fecha date,
+ Descripcion varchar(100),
+ PRIMARY KEY (NumPoliza)
+);
+CREATE TABLE DetallePoliza
+( NumPoliza integer,
+ NumCuenta integer,
+ DebeHaber char(1),
+ Valor Float,
+ PRIMARY KEY (NumPoliza, NumCuenta),
+ FOREIGN KEY (NumPoliza) REFERENCES Polizas,
+ FOREIGN KEY (NumCuenta) REFERENCES Cuentas,
+ CHECK (DebeHaber IN ('D','H'))
+);
+La aplicación deberá incluir lo siguiente:
+- Menú principal
+- Mantenimiento de cada una de las tablas: Agregar, listar, eliminar, modificar.
+- Reporte de diario, mayor y balance.
+Reporte de diario: Que permita listar una o todas las Polizas de una fecha
+EMPRESA XXXX
+REPORTE DE DIARIO
+NUMERO DE POLIZA: 1
+FECHA: 1/3/2018
+DESCRIPCION: Compra de 10 escritorios
+MOBILIARIO                                      100.00
+PROVEEDORES                                                     100.00
+                                                ---------       ---------
+                                                100.00          100.00
+Reporte de balance: Para el balance puede basarse en la la siguiente consulta:
+SELECT NumCuenta, sum(if (debehaber='D',valor,0)) as Debe,
+ sum(if (debehaber='H',valor,0)) as Haber
+FROM DetallePoliza
+GROUP BY NumCuenta
+
+
+EMPRESA XXXX
+BALANCE
+Cuenta                      Debe            Haber
+ACTIVO
+ Bancos                     1,000.00
+ Caja                       500.00
+PASIVO
+ Proveedores                                800.00
+GASTOS
+Sueldos                                     700.00
+                            ---------       -----------
+                            1,500.00        1,500.00
+Reporte de mayor: Debe listar el mayor de una cuenta
+EMPRESA XXXX
+MAYOR
+CUENTA: BANCOS
+ Poliza                             Debe         Haber
+ --------------------------
+#1 1/3/2018 Ventas                  5,000.00
+#3 1/3/2018 Pago de sueldo                      1,000.00
+#4 1/3/2018 Pago de proveedores                 500.00
+ --------------------------
+                                    5,000.00    1,500.00
