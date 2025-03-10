@@ -3,7 +3,6 @@
 session_start();
 
 require_once './src/config/database.php';
-
 require_once './src/controllers/CuentasController.php';
 require_once './src/controllers/PolizasController.php';
 require_once './src/controllers/DetallePolizaController.php';
@@ -12,11 +11,10 @@ $cuentasController = new CuentasController($conn);
 $polizasController = new PolizasController($conn);
 $detallePolizaController = new DetallePolizaController($conn);
 
-
 // Map de Rutas a controladores
 $routes = [
     '/' => './src/views/layout.php',
-    '/cuentas' => [$cuentasController, 'listCuentas'],
+    '/cuentas' => [$cuentasController, 'handleRequest'],
     '/cuentas/add' => [$cuentasController, 'addCuenta'],
     '/cuentas/edit' => [$cuentasController, 'editCuenta'],
     '/cuentas/delete' => [$cuentasController, 'deleteCuenta'],
@@ -45,3 +43,4 @@ if (array_key_exists($requestUri, $routes)) {
     http_response_code(404);
     echo "404 Not Found";
 }
+?>
