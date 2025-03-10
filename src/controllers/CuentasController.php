@@ -8,29 +8,37 @@ class CuentasController {
     }
 
     public function addCuenta() {
+        $nombreCuenta = '';
+        $tipo = '';
+        $error = '';
+    
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
-                // Validarv los datos
+                // Validar los datos
                 $numCuenta = filter_input(INPUT_POST, 'NumCuenta', FILTER_VALIDATE_INT);
                 $nombreCuenta = filter_input(INPUT_POST, 'NombreCuenta', FILTER_SANITIZE_STRING);
                 $tipo = filter_input(INPUT_POST, 'Tipo', FILTER_SANITIZE_STRING);
-
+    
                 if (!$numCuenta || !$nombreCuenta || !$tipo) {
                     throw new Exception("Datos de entrada no válidos.");
                 }
-
-                $query = "INSERT INTO Cuentas (NumCuenta, NombreCuenta, Tipo) VALUES (?, ?, ?)";
-                $this->executeQuery($query, [$numCuenta, $nombreCuenta, $tipo]);
-
+    
+                $query = "INSERT INTO Cuentas (NumCuenta, NombreCuenta, Tipo) VALUES (:numCuenta, :nombreCuenta, :tipo)";
+                $stmt = $this->db->prepare($query);
+                $stmt->bindParam(':numCuenta', $numCuenta, PDO::PARAM_INT);
+                $stmt->bindParam(':nombreCuenta', $nombreCuenta, PDO::PARAM_STR);
+                $stmt->bindParam(':tipo', $tipo, PDO::PARAM_STR);
+                $stmt->execute();
+    
                 header("Location: /cuentas");
-                die();
+                exit();
             } catch (Exception $e) {
                 error_log("Error al agregar cuenta: " . $e->getMessage());
-                throw new Exception("Ocurrió un error al agregar la cuenta.");
+                $error = "Ocurrió un error al agregar la cuenta.";
             }
-        } else {
-            include '../src/views/cuentas/add.php';
         }
+    
+        include './src/views/cuentas/add.php';
     }
 
     public function editCuenta() {
@@ -60,7 +68,7 @@ class CuentasController {
                 throw new Exception("Número de cuenta no válido.");
             }
             $cuenta = $this->getCuenta($numCuenta);
-            include '../src/views/cuentas/edit.php';
+            include './src/views/cuentas/edit.php';
         }
     }
 
@@ -87,7 +95,7 @@ class CuentasController {
                 throw new Exception("Número de cuenta no válido.");
             }
             $cuenta = $this->getCuenta($numCuenta);
-            include '../src/views/cuentas/delete.php';
+            include './src/views/cuentas/delete.php';
         }
     }
 
@@ -96,7 +104,7 @@ class CuentasController {
             $query = "SELECT * FROM Cuentas";
             $result = $this->db->query($query);
             $cuentas = $result->fetch_all(MYSQLI_ASSOC);
-            include '../src/views/cuentas/list.php';
+            include './src/views/cuentas/list.php';
         } catch (Exception $e) {
             error_log("Error al listar cuentas: " . $e->getMessage());
             throw new Exception("Ocurrió un error al listar las cuentas.");
