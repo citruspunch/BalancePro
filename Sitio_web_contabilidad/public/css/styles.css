@@ -88,11 +88,22 @@ footer {
 }
 
 .btn-danger {
-    background-color: #d9534f;
+    margin-top: 10px;
+    display: inline-block;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    background-color: #d13b35;
 }
 
 .btn-danger:hover {
-    background-color: #c9302c;
+    background-color: #c7120c;
 }
 
 .add-button {
