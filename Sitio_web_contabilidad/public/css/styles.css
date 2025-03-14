@@ -1,10 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
 html, body {
-    font-family: 'Poppins', sans-serif !important;
+    height: 100%;
     margin: 0;
     padding: 0;
+    font-family: 'Poppins', sans-serif !important;
     background-color: #f4f4f4;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 header {
@@ -33,6 +45,10 @@ nav a:hover {
     width: 80%;
     margin: auto;
     overflow: hidden;
+}
+
+main {
+    flex: 1;
 }
 
 footer {
