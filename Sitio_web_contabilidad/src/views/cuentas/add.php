@@ -32,8 +32,8 @@
                     <option value="G">Gasto</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Agregar Cuenta</button>
-            <a href="/Sitio_web_contabilidad/cuentas">Cancelar</a>
+            <button type="submit" class="btn btn-primary add-button">Agregar Cuenta</button>
+            <a href="/Sitio_web_contabilidad/cuentas" class="btn btn-danger">Cancelar</a>
         </form>
     </div>
 </body>
