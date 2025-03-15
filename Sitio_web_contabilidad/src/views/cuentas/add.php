@@ -13,7 +13,7 @@
             <?php if (!empty($error)): ?>
                 <div class="error"><?php echo $error; ?></div>
             <?php endif; ?>
-            <form action="/Sitio_web_contabilidad/cuentas/add" method="post">
+            <form action="/Sitio_web_contabilidad/cuentas?action=add" method="post">
                 <div class="form-group">
                     <label for="numCuenta">Número de la Cuenta:</label>
                     <input type="text" name="NumCuenta" id="numCuenta" required>
