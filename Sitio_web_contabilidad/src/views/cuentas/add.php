@@ -39,8 +39,9 @@
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary add-button">Agregar Cuenta</button>
-                <a href="/Sitio_web_contabilidad/cuentas" class="btn btn-danger">Cancelar</a>
+                
             </form>
+            <a href="/Sitio_web_contabilidad/cuentas" class="btn btn-danger">Cancelar</a>
         </div>
     </div>
     <script>
