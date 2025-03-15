@@ -11,7 +11,12 @@
         <div class="card">
             <h2>Agregar Nueva Cuenta</h2>
             <?php if (!empty($error)): ?>
-                <div class="error"><?php echo $error; ?></div>
+                <div id="errorModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <p><?php echo $error; ?></p>
+                    </div>
+                </div>
             <?php endif; ?>
             <form action="/Sitio_web_contabilidad/cuentas?action=add" method="post">
                 <div class="form-group">
@@ -38,5 +43,25 @@
             </form>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var modal = document.getElementById("errorModal");
+            var span = document.getElementsByClassName("close")[0];
+
+            if (modal) {
+                modal.style.display = "block";
+            }
+
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        });
+    </script>
 </body>
 </html>
