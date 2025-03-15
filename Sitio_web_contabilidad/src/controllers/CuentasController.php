@@ -25,28 +25,28 @@ class CuentasController {
         }
     }
 
-        private function addCuenta() {
+    private function addCuenta() {
         $nombreCuenta = '';
         $tipo = '';
         $error = '';
-    
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $numCuenta = filter_input(INPUT_POST, 'NumCuenta', FILTER_VALIDATE_INT);
                 $nombreCuenta = filter_input(INPUT_POST, 'NombreCuenta', FILTER_SANITIZE_STRING);
                 $tipo = filter_input(INPUT_POST, 'Tipo', FILTER_SANITIZE_STRING);
-    
+
                 if (!$numCuenta || !$nombreCuenta || !$tipo) {
                     throw new Exception("Datos de entrada no válidos.");
                 }
-    
+
                 $query = "INSERT INTO Cuentas (NumCuenta, NombreCuenta, Tipo) VALUES (:numCuenta, :nombreCuenta, :tipo)";
                 $stmt = $this->db->prepare($query);
                 $stmt->bindParam(':numCuenta', $numCuenta, PDO::PARAM_INT);
                 $stmt->bindParam(':nombreCuenta', $nombreCuenta, PDO::PARAM_STR);
                 $stmt->bindParam(':tipo', $tipo, PDO::PARAM_STR);
                 $stmt->execute();
-    
+
                 header("Location: /Sitio_web_contabilidad/cuentas");
                 exit();
             } catch (Exception $e) {
@@ -54,7 +54,7 @@ class CuentasController {
                 $error = "Ocurrió un error al agregar la cuenta.";
             }
         }
-    
+
         $content = './src/views/cuentas/add.php';
         include './src/views/layout.php';
     }
@@ -79,7 +79,7 @@ class CuentasController {
                 $stmt->bindParam(':tipo', $tipo, PDO::PARAM_STR);
                 $stmt->execute();
 
-                header("Location: /cuentas");
+                header("Location: /Sitio_web_contabilidad/cuentas");
                 exit();
             } catch (Exception $e) {
                 error_log("Error al editar cuenta: " . $e->getMessage());
@@ -92,15 +92,14 @@ class CuentasController {
             }
             $cuenta = $this->getCuenta($numCuenta);
             if (!$cuenta) {
-                header("Location: /cuentas");
+                header("Location: /Sitio_web_contabilidad/cuentas");
                 exit();
             }
             $nombreCuenta = $cuenta['NombreCuenta'];
             $tipo = $cuenta['Tipo'];
+            $content = './src/views/cuentas/edit.php';
+            include './src/views/layout.php';
         }
-
-        $content = '../src/views/cuentas/form.php';
-        include './src/views/layout.php';
     }
 
     private function deleteCuenta() {
@@ -114,7 +113,7 @@ class CuentasController {
                 $query = "DELETE FROM Cuentas WHERE NumCuenta = ?";
                 $this->executeQuery($query, [$numCuenta]);
 
-                header("Location: /cuentas");
+                header("Location: /Sitio_web_contabilidad/cuentas");
                 exit();
             } catch (Exception $e) {
                 error_log("Error al eliminar cuenta: " . $e->getMessage());
