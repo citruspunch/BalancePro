@@ -51,7 +51,7 @@ class CuentasController {
                 exit();
             } catch (Exception $e) {
                 error_log("Error al agregar cuenta: " . $e->getMessage());
-                $error = "Ocurrió un error al agregar la cuenta.";
+                $error = "Ocurrió un error al agregar la cuenta.<br> Verifique que el número de cuenta no esté registrado.";
             }
         }
 
