@@ -33,8 +33,8 @@ class CuentasController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $numCuenta = filter_input(INPUT_POST, 'NumCuenta', FILTER_VALIDATE_INT);
-                $nombreCuenta = filter_input(INPUT_POST, 'NombreCuenta', FILTER_SANITIZE_STRING);
-                $tipo = filter_input(INPUT_POST, 'Tipo', FILTER_SANITIZE_STRING);
+                $nombreCuenta = filter_input(INPUT_POST, 'NombreCuenta', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $tipo = filter_input(INPUT_POST, 'Tipo', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
                 if (!$numCuenta || !$nombreCuenta || !$tipo) {
                     throw new Exception("Datos de entrada no válidos.");
@@ -65,8 +65,8 @@ class CuentasController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $numCuenta = filter_input(INPUT_POST, 'NumCuenta', FILTER_VALIDATE_INT);
-                $nombreCuenta = filter_input(INPUT_POST, 'NombreCuenta', FILTER_SANITIZE_STRING);
-                $tipo = filter_input(INPUT_POST, 'Tipo', FILTER_SANITIZE_STRING);
+                $nombreCuenta = filter_input(INPUT_POST, 'NombreCuenta', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $tipo = filter_input(INPUT_POST, 'Tipo', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
                 if (!$numCuenta || !$nombreCuenta || !$tipo) {
                     throw new Exception("Datos de entrada no válidos.");
