@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contabilidad App</title>
-    <link rel="stylesheet" href="/Sitio_web_contabilidad/public/css/styles.css?v=1.0">
+    <link rel="stylesheet" href="/Sitio_web_contabilidad/public/css/styles.css">
 </head>
 <body>
     <div class="wrapper">
