@@ -11,6 +11,8 @@ html, body {
 body {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center; 
 }
 
 .wrapper {
@@ -42,9 +44,56 @@ nav a:hover {
 }
 
 .container {
-    width: 80%;
-    margin: auto;
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    margin: 0 auto;
     overflow: hidden;
+}
+
+.card {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin: 20px;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    text-align: center;
+}
+
+.card h2 {
+    margin-top: 0;
+    text-align: center;
+}
+
+.form-group {
+    margin: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.form-group select {
+    appearance: none;
+    background: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23333" d="M2 0L0 2h4zm0 5L0 3h4z"/></svg>') no-repeat right 10px center;
+    background-color: #fff;
+    background-size: 10px;
+    padding-right: 30px; 
 }
 
 main {
