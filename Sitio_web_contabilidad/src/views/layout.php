@@ -32,6 +32,5 @@
             <p>&copy; <?php echo date("Y"); ?> Empresa Contabilidad. Todos los derechos reservados.</p>
         </footer>
     </div>
-    <script src="/js/scripts.js"></script>
 </body>
 </html>
