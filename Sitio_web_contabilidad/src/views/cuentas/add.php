@@ -44,25 +44,6 @@
             <a href="/Sitio_web_contabilidad/cuentas" class="btn btn-danger">Cancelar</a>
         </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var modal = document.getElementById("errorModal");
-            var span = document.getElementsByClassName("close")[0];
-
-            if (modal) {
-                modal.style.display = "block";
-            }
-
-            span.onclick = function() {
-                modal.style.display = "none";
-            }
-
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
-        });
-    </script>
+    <script src="/Sitio_web_contabilidad/public/js/modal.js"></script>
 </body>
 </html>
