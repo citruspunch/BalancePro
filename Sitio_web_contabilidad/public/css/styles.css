@@ -136,6 +136,7 @@ footer {
     background-color: #35424a;
     color: white;
     padding: 10px 30px;
+    margin: 4px 2px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -148,7 +149,7 @@ footer {
 }
 
 .button:hover, .btn:hover {
-    background-color: #e8491d;
+    background-color: #ff6136;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -158,6 +159,14 @@ footer {
 
 .btn-warning:hover {
     background-color: #ec971f;
+}
+
+.btn-info {
+    background-color: #18a2cd;
+}
+
+.btn-info:hover {
+    background-color: #0b82a6;
 }
 
 .btn-danger {
