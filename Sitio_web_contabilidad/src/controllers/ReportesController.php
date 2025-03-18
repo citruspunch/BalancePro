@@ -85,16 +85,21 @@ class ReportesController
 
     public function reporteMayor()
     {
-        $cuenta = filter_input(INPUT_GET, 'cuenta', FILTER_SANITIZE_STRING);
+        $cuenta = filter_input(INPUT_GET, 'cuenta', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         if (!$cuenta) {
-            throw new Exception("Debe especificar una cuenta.");
+            $query = "SELECT NumCuenta, NombreCuenta FROM Cuentas";
+            $stmt = $this->db->query($query);
+            $cuentas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $content = './src/views/reportes/seleccion/SeleccionarCuenta.php';
+            include './src/views/layout.php';
+            return;
         }
 
         $query = "SELECT P.NumPoliza AS poliza, P.Fecha AS fecha, P.Descripcion AS descripcion,
-                         D.DebeHaber AS debeHaber, D.Valor AS valor
-                  FROM DetallePoliza D
-                  JOIN Polizas P ON D.NumPoliza = P.NumPoliza
-                  WHERE D.NumCuenta = :cuenta";
+                        D.DebeHaber AS debeHaber, D.Valor AS valor
+                    FROM DetallePoliza D
+                    JOIN Polizas P ON D.NumPoliza = P.NumPoliza
+                    WHERE D.NumCuenta = :cuenta";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':cuenta', $cuenta, PDO::PARAM_STR);
         $stmt->execute();
