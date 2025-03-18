@@ -10,6 +10,14 @@
     <div class="container">
         <div class="card">
             <h2>Editar Poliza</h2>
+            <?php if (!empty($error)): ?>
+                <div id="errorModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <p><?php echo $error; ?></p>
+                    </div>
+                </div>
+            <?php endif; ?>
             <form action="/Sitio_web_contabilidad/polizas?action=editPoliza" method="post">
                 <input type="hidden" name="numPoliza" value="<?php echo htmlspecialchars($poliza->NumPoliza); ?>">
                 <div class="form-group">
@@ -178,5 +186,6 @@
             });
         });
     </script>
+    <script src="/Sitio_web_contabilidad/public/js/modal.js"></script>
 </body>
 </html>
