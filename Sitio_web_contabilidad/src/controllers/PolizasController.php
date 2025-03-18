@@ -121,17 +121,19 @@ class PolizasController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
-                $numPoliza = filter_input(INPUT_POST, 'NumPoliza', FILTER_VALIDATE_INT);
-                $fecha = filter_input(INPUT_POST, 'Fecha', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                $descripcion = filter_input(INPUT_POST, 'Descripcion', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                
+                $numPoliza = filter_input(INPUT_POST, 'numPoliza', FILTER_VALIDATE_INT);
+                $fecha = filter_input(INPUT_POST, 'fecha', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $descripcion = filter_input(INPUT_POST, 'descripcion', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
                 $numCuentas = $_POST['numCuenta'] ?? [];
                 $debes = $_POST['debe'] ?? [];
                 $haberes = $_POST['haber'] ?? [];
-
+                
                 if (!$numPoliza || !$fecha || !$descripcion || empty($numCuentas) || empty($debes) || empty($haberes)) {
                     throw new Exception("Datos de entrada no válidos.");
                 }
+
+
 
                 $sumaDebe = array_sum($debes);
                 $sumaHaber = array_sum($haberes);
@@ -140,6 +142,7 @@ class PolizasController
                     throw new Exception($error);
                 }
 
+                
                 $this->db->beginTransaction();
 
                 $query = "UPDATE Polizas SET Fecha = :fecha, Descripcion = :descripcion WHERE NumPoliza = :numPoliza";
@@ -149,18 +152,25 @@ class PolizasController
                 $stmt->bindParam(':descripcion', $descripcion, PDO::PARAM_STR);
                 $stmt->execute();
 
-                $query = "UPDATE DetallePoliza SET NumCuenta = :numCuenta, DebeHaber = :debeHaber, Valor = :valor WHERE NumPoliza = :numPoliza";
+                $query = "DELETE FROM DetallePoliza WHERE NumPoliza = :numPoliza";
                 $stmt = $this->db->prepare($query);
+                $stmt->bindParam(':numPoliza', $numPoliza, PDO::PARAM_INT);
+                $stmt->execute();
+
+                $query = "INSERT INTO DetallePoliza (NumPoliza, NumCuenta, DebeHaber, Valor) VALUES (:numPoliza, :numCuenta, :debeHaber, :valor)";
+                $stmt = $this->db->prepare($query);
+
+
                 for ($i = 0; $i < count($numCuentas); $i++) {
                     $numCuenta = filter_var($numCuentas[$i], FILTER_VALIDATE_INT);
                     $debe = isset($debes[$i]) ? filter_var($debes[$i], FILTER_VALIDATE_FLOAT) : 0;
                     $haber = isset($haberes[$i]) ? filter_var($haberes[$i], FILTER_VALIDATE_FLOAT) : 0;
-    
+
                     if ($debe > 0 && $haber > 0) {
                         $error = "No se puede ingresar un valor en Debe y Haber en la misma fila.";
                         throw new Exception($error);
                     }
-    
+
                     if ($debe > 0) {
                         $debeHaber = 'D';
                         $valor = $debe;
@@ -171,7 +181,7 @@ class PolizasController
                         $error = "Debe ingresar un valor en Debe o Haber.";
                         throw new Exception($error);
                     }
-    
+
                     $stmt->bindParam(':numPoliza', $numPoliza, PDO::PARAM_INT);
                     $stmt->bindParam(':numCuenta', $numCuenta, PDO::PARAM_INT);
                     $stmt->bindParam(':debeHaber', $debeHaber, PDO::PARAM_STR);
@@ -179,14 +189,15 @@ class PolizasController
                     $stmt->execute();
                 }
 
+
                 $this->db->commit();
 
                 header("Location: /Sitio_web_contabilidad/polizas");
                 exit();
             } catch (Exception $e) {
-                if ($this->db->inTransaction()){
+                if ($this->db->inTransaction()) {
                     $this->db->rollBack();
-                } 
+                }
                 error_log("Error al editar póliza: " . $e->getMessage());
                 $error = "Ocurrió un error al editar la póliza.";
             }
@@ -235,9 +246,9 @@ class PolizasController
                 header("Location: /Sitio_web_contabilidad/polizas");
                 exit();
             } catch (Exception $e) {
-                if ($this->db->inTransaction()){
+                if ($this->db->inTransaction()) {
                     $this->db->rollBack();
-                } 
+                }
                 error_log("Error al eliminar póliza: " . $e->getMessage());
                 $error = "Ocurrió un error al eliminar la póliza.";
             }
@@ -251,8 +262,9 @@ class PolizasController
             include './src/views/layout.php';
         }
     }
-    
-    public function viewPoliza() {
+
+    public function viewPoliza()
+    {
         try {
             $numPoliza = filter_input(INPUT_GET, 'numPoliza', FILTER_VALIDATE_INT);
             if (!$numPoliza) {
@@ -275,7 +287,7 @@ class PolizasController
             $stmt->bindParam(1, $numPoliza, PDO::PARAM_INT);
             $stmt->execute();
             $totalDebe = $stmt->fetch(PDO::FETCH_OBJ)->TotalDebe;
-            
+
             $query = 'SELECT SUM(Valor) AS TotalHaber FROM DetallePoliza WHERE NumPoliza = ? AND DebeHaber = "H"';
             $stmt = $this->db->prepare($query);
             $stmt->bindParam(1, $numPoliza, PDO::PARAM_INT);
@@ -320,7 +332,8 @@ class PolizasController
         }
     }
 
-    public function getDetallesPoliza($numPoliza) {
+    public function getDetallesPoliza($numPoliza)
+    {
         try {
             $query = "SELECT * FROM DetallePoliza WHERE NumPoliza = ?";
             $stmt = $this->db->prepare($query);
