@@ -9,9 +9,12 @@ session_start();
 require_once './src/config/database.php';
 require_once './src/controllers/CuentasController.php';
 require_once './src/controllers/PolizasController.php';
+require_once './src/controllers/ReportesController.php';
+
 
 $cuentasController = new CuentasController($conn);
 $polizasController = new PolizasController($conn);
+$reportesController = new ReportesController($conn);
 
 // Map de Rutas a controladores
 $routes = [
@@ -25,7 +28,9 @@ $routes = [
     '/Sitio_web_contabilidad/polizas/add' => [$polizasController, 'addPoliza'],
     '/Sitio_web_contabilidad/polizas/edit' => [$polizasController, 'editPoliza'],
     '/Sitio_web_contabilidad/polizas/delete' => [$polizasController, 'deletePoliza'],
-    '/Sitio_web_contabilidad/reportes' => './src/views/reportes/' . basename($_SERVER['REQUEST_URI']) . '.php',
+    '/Sitio_web_contabilidad/reportes/diario' => [$reportesController, 'reporteDiario'],
+    '/Sitio_web_contabilidad/reportes/mayor' => [$reportesController, 'reporteMayor'],
+    '/Sitio_web_contabilidad/reportes/balance' => [$reportesController, 'reporteBalance'],
 ];
 
 $requestUri = $_SERVER['REQUEST_URI'];
