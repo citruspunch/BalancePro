@@ -14,10 +14,9 @@
                 <ul>
                     <li><a href="/Sitio_web_contabilidad/cuentas">Cuentas</a></li>
                     <li><a href="/Sitio_web_contabilidad/polizas">Polizas</a></li>
-                    <li><a href="/Sitio_web_contabilidad/detallePoliza">Detalle de Póliza</a></li>
-                    <li><a href="/Sitio_web_contabilidad/reportes/diario.php">Reporte Diario</a></li>
-                    <li><a href="/Sitio_web_contabilidad/reportes/mayor.php">Reporte Mayor</a></li>
-                    <li><a href="/Sitio_web_contabilidad/reportes/balance.php">Reporte de Balance</a></li>
+                    <li><a href="/Sitio_web_contabilidad/reportes/diario">Reporte Diario</a></li>
+                    <li><a href="/Sitio_web_contabilidad/reportes/mayor">Reporte Mayor</a></li>
+                    <li><a href="/Sitio_web_contabilidad/reportes/balance">Reporte de Balance</a></li>
                 </ul>
             </nav>
         </header>
