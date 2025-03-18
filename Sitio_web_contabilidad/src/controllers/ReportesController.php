@@ -106,12 +106,11 @@ class ReportesController
 
     public function reporteBalance()
     {
-        $query = "SELECT C.NumCuenta, C.NombreCuenta, 
-                         SUM(CASE WHEN D.DebeHaber = 'D' THEN D.Valor ELSE 0 END) AS Debe,
-                         SUM(CASE WHEN D.DebeHaber = 'H' THEN D.Valor ELSE 0 END) AS Haber
-                  FROM DetallePoliza D
-                  JOIN Cuentas C ON D.NumCuenta = C.NumCuenta
-                  GROUP BY C.NumCuenta, C.NombreCuenta";
+        $query = "SELECT Cuentas.NombreCuenta ,Cuentas.Tipo, DetallePoliza.NumCuenta, sum(if (debehaber='D',valor,0)) as Debe,
+                    sum(if (debehaber='H',valor,0)) as Haber
+                    FROM DetallePoliza, Cuentas
+                    WHERE DetallePoliza.NumCuenta = Cuentas.NumCuenta
+                    GROUP BY NumCuenta";
         $stmt = $this->db->query($query);
         $balanceData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
