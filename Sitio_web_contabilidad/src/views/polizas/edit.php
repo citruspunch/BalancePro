@@ -11,10 +11,7 @@
         <div class="card">
             <h2>Editar Poliza</h2>
             <form action="/Sitio_web_contabilidad/polizas?action=editPoliza" method="post">
-                <div class="form-group">
-                    <label for="numPoliza">Número de la Poliza:</label>
-                    <input type="text" name="numPoliza" id="numPoliza" required class="form-control" value="<?php echo htmlspecialchars($poliza->NumPoliza); ?>">
-                </div>
+                <input type="hidden" name="numPoliza" value="<?php echo htmlspecialchars($poliza->NumPoliza); ?>">
                 <div class="form-group">
                     <label for="fecha">Fecha:</label>
                     <input type="date" name="fecha" id="fecha" required class="form-control" value="<?php echo htmlspecialchars($poliza->Fecha); ?>">
