@@ -44,12 +44,12 @@
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
-                            </td>
-                                <td>
-                                    <input type="number" name="debe[]" step="0.01" min="0" value="<?php echo $detalle['DebeHaber'] === 'D' ? htmlspecialchars($detalle['Valor']) : ''; ?>">
                                 </td>
                                 <td>
-                                    <input type="number" name="haber[]" step="0.01" min="0" value="<?php echo $detalle['DebeHaber'] === 'H' ? htmlspecialchars($detalle['Valor']) : ''; ?>">
+                                    <input type="number" name="debe[]" step="0.01" min="0" class="debe" value="<?php echo $detalle['DebeHaber'] === 'D' ? htmlspecialchars($detalle['Valor']) : ''; ?>">
+                                </td>
+                                <td>
+                                    <input type="number" name="haber[]" step="0.01" min="0" class="haber" value="<?php echo $detalle['DebeHaber'] === 'H' ? htmlspecialchars($detalle['Valor']) : ''; ?>">
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-danger remove-row">Eliminar</button>
@@ -58,10 +58,9 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-                
+                <button type="button" class="btn btn-primary add-row">Agregar Cuenta</button>
+                <button type="submit" class="btn btn-primary add-button">Actualizar Poliza</button>
             </form>
-            <button type="button" class="btn btn-primary add-row">Agregar Cuenta</button>
-            <button type="submit" class="btn btn-primary add-button">Actualizar Poliza</button>
             <a href="/Sitio_web_contabilidad/polizas" class="btn btn-danger">Cancelar</a>
         </div>
     </div>
@@ -74,6 +73,7 @@
                 newRow.querySelector('input[name="debe[]"]').value = '';
                 newRow.querySelector('input[name="haber[]"]').value = '';
                 tableBody.appendChild(newRow);
+                assignInputEvents(newRow);
             });
 
             document.addEventListener('click', function (event) {
@@ -83,6 +83,33 @@
                         row.remove();
                     }
                 }
+            });
+
+            function assignInputEvents(row) {
+                var debeInput = row.querySelector('input[name="debe[]"]');
+                var haberInput = row.querySelector('input[name="haber[]"]');
+
+                debeInput.addEventListener('input', function () {
+                    if (this.value.trim() !== "") {
+                        haberInput.value = "0";
+                        haberInput.style.display = "none";
+                    } else {
+                        haberInput.style.display = "";
+                    }
+                });
+
+                haberInput.addEventListener('input', function () {
+                    if (this.value.trim() !== "") {
+                        debeInput.value = "0";
+                        debeInput.style.display = "none";
+                    } else {
+                        debeInput.style.display = "";
+                    }
+                });
+            }
+
+            document.querySelectorAll('#cuentasTable tbody tr').forEach(function (row) {
+                assignInputEvents(row);
             });
         });
     </script>
