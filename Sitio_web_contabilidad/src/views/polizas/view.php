@@ -32,8 +32,8 @@
                     <?php endforeach; ?>
                     <tr>
                         <td><strong>Total</strong></td>
-                        <td><strong><?php echo $totalDebe; ?></strong></td>
-                        <td><strong><?php echo $totalHaber; ?></strong></td>
+                        <td><strong><?php echo number_format($totalDebe, 2); ?></strong></td>
+                        <td><strong><?php echo number_format($totalHaber, 2); ?></strong></td>
                     </tr>
                 </tbody>
             </table>
