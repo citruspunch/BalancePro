@@ -34,7 +34,7 @@
                             <td>
                                 <a href="?action=viewPoliza&numPoliza=<?php echo htmlspecialchars($poliza['NumPoliza']); ?>" class="btn btn-info">Ver</a>
                                 <a href="?action=editPoliza&numPoliza=<?php echo htmlspecialchars($poliza['NumPoliza']); ?>" class="btn btn-warning">Editar</a>
-                                <a href="?action=removePoliza&numPoliza=<?php echo htmlspecialchars($poliza['NumPoliza']); ?>" class="btn btn-danger">Eliminar</a>
+                                <a href="?action=deletePoliza&numPoliza=<?php echo htmlspecialchars($poliza['NumPoliza']); ?>" class="btn btn-danger">Eliminar</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
