@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>Listado de Cuentas</h2>
+        <h1>Listado de Cuentas</h1>
         <table class="table table-bordered">
             <thead>
                 <tr>
