@@ -90,6 +90,9 @@
                 newRow.querySelector('.debe').value = '';
                 newRow.querySelector('.haber').value = '';
 
+                newRow.querySelector('.debe').style.display = ""; 
+                newRow.querySelector('.haber').style.display = ""; 
+
                 tableBody.appendChild(newRow);
 
                 assignInputEvents(newRow);
@@ -112,17 +115,19 @@
 
                 debeInput.addEventListener('input', function () {
                     if (this.value.trim() !== "") {
-                        haberInput.disabled = true;
+                        haberInput.value = "0";
+                        haberInput.style.display = "none";
                     } else {
-                        haberInput.disabled = false;
+                        haberInput.style.display = "";
                     }
                 });
 
                 haberInput.addEventListener('input', function () {
                     if (this.value.trim() !== "") {
-                        debeInput.disabled = true;
+                        debeInput.value = "0";
+                        debeInput.style.display = "none";
                     } else {
-                        debeInput.disabled = false;
+                        debeInput.style.display = "";
                     }
                 });
             }
