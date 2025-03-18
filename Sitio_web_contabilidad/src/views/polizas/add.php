@@ -68,6 +68,31 @@
                                 <button type="button" class="btn btn-danger remove-row">Eliminar</button>
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    <select name="numCuenta[]" required class="form-control">
+                                        <option value="">Seleccione una Cuenta</option>
+                                        <?php foreach ($cuentas as $cuenta): ?>
+                                            <option value="<?php echo htmlspecialchars($cuenta['NumCuenta']); ?>">
+                                                <?php echo htmlspecialchars($cuenta['NombreCuenta']); ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <input type="number" name="debe[]" step="0.01" min="0" class="form-control debe"
+                                    placeholder="Q">
+                            </td>
+                            <td>
+                                <input type="number" name="haber[]" step="0.01" min="0" class="form-control haber"
+                                    placeholder="Q">
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger remove-row">Eliminar</button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
                 <button type="button" id="addRow" class="btn btn-success">Agregar Cuenta</button>
