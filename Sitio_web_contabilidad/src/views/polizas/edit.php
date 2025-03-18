@@ -67,6 +67,9 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('.add-row').addEventListener('click', function () {
+                if (document.querySelectorAll('#cuentasTable tbody tr').length >= <?php echo count($cuentas); ?>) {
+                    return;
+                }
                 var tableBody = document.querySelector('#cuentasTable tbody');
                 var newRow = tableBody.querySelector('tr').cloneNode(true);
                 newRow.querySelector('select').selectedIndex = 0;
