@@ -31,12 +31,10 @@
                             <td><?php echo $poliza['NumPoliza']; ?></td>
                             <td><?php echo $poliza['Fecha']; ?></td>
                             <td><?php echo $poliza['Descripcion']; ?></td>
-                            <td><?php echo $poliza['NumCuenta']; ?></td>
-                            <td><?php echo $poliza['DebeHaber']; ?></td>
-                            <td><?php echo $poliza['Valor']; ?></td>
                             <td>
-                                <a href="edit.php?id=<?php echo $poliza['NumPoliza']; ?>" class="btn">Editar</a>
-                                <a href="delete.php?id=<?php echo $poliza['NumPoliza']; ?>" class="btn">Eliminar</a>
+                                <a href="?action=viewPoliza&numPoliza=<?php echo htmlspecialchars($poliza['NumPoliza']); ?>" class="btn btn-info">Ver</a>
+                                <a href="?action=editPoliza&numPoliza=<?php echo htmlspecialchars($poliza['NumPoliza']); ?>" class="btn btn-warning">Editar</a>
+                                <a href="?action=removePoliza&numPoliza=<?php echo htmlspecialchars($poliza['NumPoliza']); ?>" class="btn btn-danger">Eliminar</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
