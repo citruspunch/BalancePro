@@ -211,9 +211,9 @@ class PolizasController
             $query = "SELECT NumCuenta, NombreCuenta FROM Cuentas";
             $stmt = $this->db->query($query);
             $cuentas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $content = './src/views/polizas/edit.php';
-            include './src/views/layout.php';
         }
+        $content = './src/views/polizas/edit.php';
+        include './src/views/layout.php';
     }
 
     // Método para eliminar una póliza y sus detalles
@@ -221,10 +221,9 @@ class PolizasController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
-                $numPoliza = filter_input(INPUT_POST, 'NumPoliza', FILTER_VALIDATE_INT);
-                $numCuenta = filter_input(INPUT_POST, 'NumCuenta', FILTER_VALIDATE_INT);
+                $numPoliza = filter_input(INPUT_POST, 'numPoliza', FILTER_VALIDATE_INT);
 
-                if (!$numPoliza || !$numCuenta) {
+                if (!$numPoliza) {
                     throw new Exception("Datos de entrada no válidos.");
                 }
 
@@ -235,10 +234,9 @@ class PolizasController
                 $stmt->bindParam(':numPoliza', $numPoliza, PDO::PARAM_INT);
                 $stmt->execute();
 
-                $query = "DELETE FROM DetallePoliza WHERE NumPoliza = :numPoliza AND NumCuenta = :numCuenta";
+                $query = "DELETE FROM DetallePoliza WHERE NumPoliza = :numPoliza";
                 $stmt = $this->db->prepare($query);
                 $stmt->bindParam(':numPoliza', $numPoliza, PDO::PARAM_INT);
-                $stmt->bindParam(':numCuenta', $numCuenta, PDO::PARAM_INT);
                 $stmt->execute();
 
                 $this->db->commit();
@@ -253,6 +251,7 @@ class PolizasController
                 $error = "Ocurrió un error al eliminar la póliza.";
             }
         } else {
+            echo "entro";
             $numPoliza = filter_input(INPUT_GET, 'numPoliza', FILTER_VALIDATE_INT);
             if (!$numPoliza) {
                 throw new Exception("Número de poliza no válido.");
