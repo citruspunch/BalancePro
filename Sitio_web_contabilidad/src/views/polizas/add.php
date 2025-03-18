@@ -90,8 +90,8 @@
                 newRow.querySelector('.debe').value = '';
                 newRow.querySelector('.haber').value = '';
 
-                newRow.querySelector('.debe').style.display = ""; 
-                newRow.querySelector('.haber').style.display = ""; 
+                newRow.querySelector('.debe').style.display = "";
+                newRow.querySelector('.haber').style.display = "";
 
                 tableBody.appendChild(newRow);
 
@@ -102,7 +102,7 @@
             document.addEventListener('click', function (event) {
                 if (event.target.classList.contains('remove-row')) {
                     var row = event.target.closest('tr');
-                    if (row && document.querySelectorAll('#cuentasTable tbody tr').length > 1) {
+                    if (row && document.querySelectorAll('#cuentasTable tbody tr').length > 2) {
                         row.remove();
                     }
                 }
@@ -133,8 +133,9 @@
             }
 
 
-
-            assignInputEvents(document.querySelector('#cuentasTable tbody tr'));
+            document.querySelectorAll('#cuentasTable tbody tr').forEach(function (row) {
+                assignInputEvents(row);
+            });
 
         });
     </script>
