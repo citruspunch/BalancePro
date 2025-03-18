@@ -41,14 +41,12 @@
                                     <td class="valor"><?php echo number_format($row['Haber'], 2); ?></td>
                                 </tr>
                                 <?php
-                                // Sumar los totales por tipo
                                 $totalDebe += $row['Debe'];
                                 $totalHaber += $row['Haber'];
                                 ?>
                             <?php endif; ?>
                         <?php endforeach; ?>
                         <?php
-                        // Sumar los totales generales
                         $totalGeneralDebe += $totalDebe;
                         $totalGeneralHaber += $totalHaber;
                         ?>
