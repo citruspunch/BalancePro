@@ -18,8 +18,8 @@ $reportesController = new ReportesController($conn);
 
 // Map de Rutas a controladores
 $routes = [
-    '/' => './src/views/layout.php',
-    '/Sitio_web_contabilidad' => './src/views/layout.php',
+    '/' => './src/views/home.php',
+    '/Sitio_web_contabilidad' => './src/views/home.php',
     '/Sitio_web_contabilidad/cuentas' => [$cuentasController, 'handleRequest'],
     '/Sitio_web_contabilidad/cuentas/add' => [$cuentasController, 'addCuenta'],
     '/Sitio_web_contabilidad/cuentas/edit' => [$cuentasController, 'editCuenta'],
