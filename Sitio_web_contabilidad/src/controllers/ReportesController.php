@@ -12,11 +12,17 @@ class ReportesController
     public function reporteDiario()
     {
         try {
-            $date = filter_input(INPUT_GET, 'date', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?? date('Y-m-d');
+            $date = filter_input(INPUT_GET, 'date', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $numPoliza = filter_input(INPUT_GET, 'numPoliza', FILTER_VALIDATE_INT);
 
             if (!$date) {
-                throw new Exception("Debe especificar una fecha válida.");
+                $date = date('Y-m-d');
+                $query = "SELECT NumCuenta, NombreCuenta FROM Cuentas";
+                $stmt = $this->db->query($query);
+                $cuentas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $content = './src/views/reportes/seleccion/SeleccionarReporteDiario.php';
+                include './src/views/layout.php';
+                return;
             }
 
             $queryPolizas = "SELECT * FROM Polizas WHERE Fecha = :date";
