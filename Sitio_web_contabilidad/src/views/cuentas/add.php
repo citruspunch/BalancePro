@@ -21,7 +21,7 @@
             <form action="/Sitio_web_contabilidad/cuentas?action=add" method="post">
                 <div class="form-group">
                     <label for="numCuenta">Número de la Cuenta:</label>
-                    <input type="text" name="NumCuenta" id="numCuenta" required>
+                    <input type="number" name="NumCuenta" id="numCuenta" required>
                 </div>
                 <div class="form-group">
                     <label for="nombreCuenta">Nombre de la Cuenta:</label>
