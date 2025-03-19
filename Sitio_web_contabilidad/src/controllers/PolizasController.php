@@ -124,61 +124,61 @@ class PolizasController
                 $numPoliza = filter_input(INPUT_POST, 'numPoliza', FILTER_VALIDATE_INT);
                 $fecha = filter_input(INPUT_POST, 'fecha', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 $descripcion = filter_input(INPUT_POST, 'descripcion', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    
+
                 $numCuentas = $_POST['numCuenta'] ?? [];
                 $debes = $_POST['debe'] ?? [];
                 $haberes = $_POST['haber'] ?? [];
-    
+
                 if (!$numPoliza || !$fecha || !$descripcion || empty($numCuentas)) {
                     throw new Exception("Datos de entrada no válidos.");
                 }
-                
+
                 if (count($numCuentas) !== count(array_unique($numCuentas))) {
                     throw new Exception("No se permiten nombres de cuentas duplicados.");
                 }
-    
-                $debes = array_map(function($value) {
+
+                $debes = array_map(function ($value) {
                     return filter_var($value, FILTER_VALIDATE_FLOAT) ?: 0;
                 }, $debes);
-    
-                $haberes = array_map(function($value) {
+
+                $haberes = array_map(function ($value) {
                     return filter_var($value, FILTER_VALIDATE_FLOAT) ?: 0;
                 }, $haberes);
-                
+
                 $sumaDebe = array_sum($debes);
                 $sumaHaber = array_sum($haberes);
                 if ($sumaDebe !== $sumaHaber) {
                     $error = "La suma de los valores tanto del Debe como del Haber deben ser iguales.";
                     throw new Exception($error);
                 }
-    
+
                 $this->db->beginTransaction();
-    
+
                 $query = "UPDATE Polizas SET Fecha = :fecha, Descripcion = :descripcion WHERE NumPoliza = :numPoliza";
                 $stmt = $this->db->prepare($query);
                 $stmt->bindParam(':numPoliza', $numPoliza, PDO::PARAM_INT);
                 $stmt->bindParam(':fecha', $fecha, PDO::PARAM_STR);
                 $stmt->bindParam(':descripcion', $descripcion, PDO::PARAM_STR);
                 $stmt->execute();
-    
+
                 $query = "DELETE FROM DetallePoliza WHERE NumPoliza = :numPoliza";
                 $stmt = $this->db->prepare($query);
                 $stmt->bindParam(':numPoliza', $numPoliza, PDO::PARAM_INT);
                 $stmt->execute();
-    
+
                 $query = "INSERT INTO DetallePoliza (NumPoliza, NumCuenta, DebeHaber, Valor) VALUES (:numPoliza, :numCuenta, :debeHaber, :valor)";
                 $stmt = $this->db->prepare($query);
-    
+
                 for ($i = 0; $i < count($numCuentas); $i++) {
                     $numCuenta = filter_var($numCuentas[$i], FILTER_VALIDATE_INT);
                     $debe = $debes[$i];
                     $haber = $haberes[$i];
-    
+
                     if ($debe > 0 && $haber > 0) {
                         $error = "No se puede ingresar un valor en Debe y Haber en la misma fila.";
                         throw new Exception($error);
                     }
-    
+
                     if ($debe > 0) {
                         $debeHaber = 'D';
                         $valor = $debe;
@@ -189,16 +189,16 @@ class PolizasController
                         $error = "Debe ingresar un valor en Debe o Haber.";
                         throw new Exception($error);
                     }
-    
+
                     $stmt->bindParam(':numPoliza', $numPoliza, PDO::PARAM_INT);
                     $stmt->bindParam(':numCuenta', $numCuenta, PDO::PARAM_INT);
                     $stmt->bindParam(':debeHaber', $debeHaber, PDO::PARAM_STR);
                     $stmt->bindParam(':valor', $valor, PDO::PARAM_STR);
                     $stmt->execute();
                 }
-    
+
                 $this->db->commit();
-    
+
                 header("Location: /Sitio_web_contabilidad/polizas");
                 exit();
             } catch (Exception $e) {
@@ -263,9 +263,9 @@ class PolizasController
                 throw new Exception("Número de poliza no válido.");
             }
             $cuenta = $this->getPoliza($numPoliza);
-            $content = './src/views/polizas/delete.php';
-            include './src/views/layout.php';
         }
+        $content = './src/views/polizas/delete.php';
+        include './src/views/layout.php';
     }
 
     public function viewPoliza()
