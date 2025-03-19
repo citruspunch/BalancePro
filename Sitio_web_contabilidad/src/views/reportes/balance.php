@@ -37,8 +37,8 @@
                             <?php if ($row['Tipo'] === $tipo): ?>
                                 <tr>
                                     <td><?php echo htmlspecialchars($row['NombreCuenta']); ?></td>
-                                    <td class="valor"><?php echo number_format($row['Debe'], 2); ?></td>
-                                    <td class="valor"><?php echo number_format($row['Haber'], 2); ?></td>
+                                    <td class="valor"><?php echo !empty($row['Debe']) && $row['Debe'] !== 0 ? number_format($row['Debe'], 2) : ''; ?></td>
+                                    <td class="valor"><?php echo !empty($row['Haber']) && $row['Haber'] !== 0 ? number_format($row['Haber'], 2) : ''; ?></td>
                                 </tr>
                                 <?php
                                 $totalDebe += $row['Debe'];
