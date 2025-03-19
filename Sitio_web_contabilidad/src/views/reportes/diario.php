@@ -11,25 +11,10 @@
 <body>
     <div class="container">
         <div class="card">
-            <h2>Reporte Diario</h2>
-            <form method="GET" action="/Sitio_web_contabilidad/reportes/diario">
-                <div class="form-group">
-                    <label for="date">Fecha:</label>
-                    <input type="date" name="date" id="date"
-                        value="<?php echo htmlspecialchars($_GET['date'] ?? date('Y-m-d')); ?>" required>
-                </div>
-                <div class="form-group">
-                    <label for="numPoliza">Número de Póliza (opcional):</label>
-                    <input type="number" name="numPoliza" id="numPoliza"
-                        value="<?php echo htmlspecialchars($_GET['numPoliza'] ?? ''); ?>">
-                </div>
-                <button type="submit" class="btn btn-primary">Filtrar</button>
-            </form>
-
+            <h1>Reporte Diario</h1>
             <?php if (!empty($polizas)): ?>
-                <br> <br>
                 <?php foreach ($polizas as $poliza): ?>
-                    <p><strong>Póliza Número: <?php echo htmlspecialchars($poliza['NumPoliza']); ?></strong></p>
+                    <h3>Poliza No.  <?php echo htmlspecialchars($poliza['NumPoliza']); ?></h3>
                     <p><strong>Fecha:</strong> <?php echo htmlspecialchars($poliza['Fecha']); ?></p>
                     <p><strong>Descripción:</strong> <?php echo htmlspecialchars($poliza['Descripcion']); ?></p>
 
@@ -60,9 +45,9 @@
                             endforeach;
                             ?>
                             <tr>
-                                <td><strong>Totales</strong></td>
-                                <td><strong><?php echo number_format($totalDebe, 2); ?></strong></td>
-                                <td><strong><?php echo number_format($totalHaber, 2); ?></strong></td>
+                                <td ><strong>Total</strong></td>
+                                <td class="valor"><strong><?php echo number_format($totalDebe, 2); ?></strong></td>
+                                <td class="valor"><strong><?php echo number_format($totalHaber, 2); ?></strong></td>
                             </tr>
                         </tbody>
                     </table>
@@ -72,7 +57,7 @@
                 <p class="alert alert-warning">No se encontraron pólizas para la fecha especificada.</p>
             <?php endif; ?>
 
-            <a href="/Sitio_web_contabilidad" class="btn btn-secondary">Volver</a>
+            <a href="/Sitio_web_contabilidad/reportes/diario" class="btn btn-secondary">Volver</a>
         </div>
     </div>
 </body>
