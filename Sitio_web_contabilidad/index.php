@@ -50,6 +50,6 @@ if (array_key_exists($requestUri, $routes)) {
     // Debug de la ruta Imprimir la ruta y el método
     echo $requestUri . ' ' . $requestMethod;
     http_response_code(404);
-    echo "404 Not Founddddd";
+    echo "404 Not Found";
 }
 ?>
