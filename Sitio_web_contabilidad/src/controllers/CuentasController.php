@@ -1,13 +1,16 @@
 <?php
 
-class CuentasController {
+class CuentasController
+{
     private $db;
 
-    public function __construct($database) {
+    public function __construct($database)
+    {
         $this->db = $database;
     }
 
-    public function handleRequest() {
+    public function handleRequest()
+    {
         $action = $_GET['action'] ?? 'list';
         switch ($action) {
             case 'add':
@@ -25,7 +28,8 @@ class CuentasController {
         }
     }
 
-    private function addCuenta() {
+    private function addCuenta()
+    {
         $nombreCuenta = '';
         $tipo = '';
         $error = '';
@@ -59,7 +63,8 @@ class CuentasController {
         include './src/views/layout.php';
     }
 
-    private function editCuenta() {
+    private function editCuenta()
+    {
         $error = '';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -102,12 +107,28 @@ class CuentasController {
         }
     }
 
-    private function deleteCuenta() {
+    private function deleteCuenta()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $numCuenta = filter_input(INPUT_POST, 'NumCuenta', FILTER_VALIDATE_INT);
                 if (!$numCuenta) {
                     throw new Exception("Número de cuenta no válido.");
+                }
+
+                $cuenta = $this->getCuenta($numCuenta);
+                if (!$cuenta) {
+                    throw new Exception("La cuenta no existe.");
+                }
+
+                $query = "SELECT COUNT(*) AS Referencias FROM DetallePoliza WHERE NumCuenta = ?";
+                $stmt = $this->db->prepare($query);
+                $stmt->bindParam(1, $numCuenta, PDO::PARAM_INT);
+                $stmt->execute();
+                $count = $stmt->fetch(PDO::FETCH_OBJ)->Referencias;
+
+                if ($count > 0) {
+                    throw new Exception("No se puede eliminar la cuenta porque tiene reportes asociados.");
                 }
 
                 $query = "DELETE FROM Cuentas WHERE NumCuenta = ?";
@@ -117,7 +138,7 @@ class CuentasController {
                 exit();
             } catch (Exception $e) {
                 error_log("Error al eliminar cuenta: " . $e->getMessage());
-                throw new Exception("Ocurrió un error al eliminar la cuenta.");
+                $error = $e->getMessage();
             }
         } else {
             $numCuenta = filter_input(INPUT_GET, 'NumCuenta', FILTER_VALIDATE_INT);
@@ -125,12 +146,13 @@ class CuentasController {
                 throw new Exception("Número de cuenta no válido.");
             }
             $cuenta = $this->getCuenta($numCuenta);
-            $content = './src/views/cuentas/delete.php';
-            include './src/views/layout.php';
         }
+        $content = './src/views/cuentas/delete.php';
+        include './src/views/layout.php';
     }
 
-    private function listCuentas() {
+    private function listCuentas()
+    {
         try {
             $query = "SELECT * FROM Cuentas";
             $stmt = $this->db->query($query);
@@ -143,7 +165,8 @@ class CuentasController {
         }
     }
 
-    private function getCuenta($numCuenta) {
+    private function getCuenta($numCuenta)
+    {
         try {
             $query = "SELECT * FROM Cuentas WHERE NumCuenta = ?";
             $stmt = $this->db->prepare($query);
@@ -156,7 +179,8 @@ class CuentasController {
         }
     }
 
-    private function executeQuery($query, $params = []) {
+    private function executeQuery($query, $params = [])
+    {
         try {
             $stmt = $this->db->prepare($query);
             if (!empty($params)) {
